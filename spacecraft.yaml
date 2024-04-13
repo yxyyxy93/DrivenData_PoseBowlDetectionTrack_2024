@@ -1,0 +1,8 @@
+train: /mnt/c/Python_work/spacecraft-pose-object-detection-runtime/data_dev/train/images
+val: /mnt/c/Python_work/spacecraft-pose-object-detection-runtime/data_dev/val/images
+# nc: 1
+# names: ['class0']
+
+# Classes
+names:
+  0: spacecraft0
