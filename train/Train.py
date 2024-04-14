@@ -1,11 +1,10 @@
 import yaml
-import os
 from pathlib import Path
-from ultralytics import YOLO, Dataset
+from ultralytics import YOLO
 
 def main():
     # Define paths
-    base_dir = Path(__file__).resolve().parent / 'data_dev'
+    base_dir = Path(__file__).resolve().parent.parent / 'data_dev'
     train_dir = base_dir / 'train'
     val_dir = base_dir / 'val'
 
@@ -18,11 +17,12 @@ def main():
     }
 
     # Save the data.yaml file
+    base_dir.mkdir(parents=True, exist_ok=True)  # Create the directory if it does not exist
     with open(base_dir / 'data.yaml', 'w') as f:
         yaml.dump(data_yaml, f)
 
     # Load model, specifying the config and number of classes. Adjust 'yolov8n' to your specific model size (s, m, l, x, etc.)
-    model = YOLO('yolov8n.yaml', nc=data_yaml['nc'], names=data_yaml['names'])
+    model = YOLO('yolov8n.yaml')
 
     # Training the model
     train_results = model.train(data=base_dir / 'data.yaml', imgsz=640, batch=64, epochs=50)
@@ -31,6 +31,7 @@ def main():
     model.save('trained_weights.pt')
 
     print("Training completed and model saved as 'trained_weights.pt'.")
+
 
 if __name__ == "__main__":
     main()

@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 from ultralytics import YOLO
 
+
 def load_and_visualize_model(weights_path, images_dir, results_dir):
     # Ensure the results directory exists
     Path(results_dir).mkdir(parents=True, exist_ok=True)
@@ -10,7 +11,7 @@ def load_and_visualize_model(weights_path, images_dir, results_dir):
     model = YOLO(weights_path)
 
     # Load images from the specified directory
-    images = list(Path(images_dir).rglob('*.jpg'))  # Adjust the glob pattern if different image formats are used
+    images = list(Path(images_dir).rglob('*.png'))  # Adjust the glob pattern if different image formats are used
 
     # Process each image
     for image_path in images:
@@ -23,12 +24,17 @@ def load_and_visualize_model(weights_path, images_dir, results_dir):
 
         print(f"Processed and saved results for {image_path.name}")
 
+
 def main():
-    weights_path = 'trained_weights.pt'  # Path to the model weights file
-    images_dir = 'path/to/images'  # Directory containing images to process
-    results_dir = 'path/to/results'  # Directory where the visualized images will be saved
+    # Assuming the directory structure aligns with what's set in train.py
+    base_dir = Path(__file__).resolve().parent.parent / 'data_dev'
+    images_dir = base_dir / 'val/images'  # Assuming you want to visualize on validation images
+    results_dir = base_dir / 'results'  # Directory to save visualized images
+
+    weights_path = 'trained_weights.pt'  # Assuming weights are in the script's directory or specify the path
 
     load_and_visualize_model(weights_path, images_dir, results_dir)
+
 
 if __name__ == "__main__":
     main()
