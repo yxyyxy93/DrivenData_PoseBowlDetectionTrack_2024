@@ -91,8 +91,10 @@ endif
 
 repack-submission: clean pack-submission
 
-repack-example: clean pack-example
+# repack-example: clean pack-example
 
+repack-benchmark: clean pack-benchmark
+ 
 ## Runs container using code from `submission/submission.zip` and data from `data/`
 test-submission: _submission_write_perms
 # if submission file does not exist
