@@ -8,6 +8,7 @@ import pandas as pd
 from loguru import logger
 from tqdm import tqdm
 from ultralytics import YOLO
+import torch
 
 INDEX_COLS = ["chain_id", "i"]
 PREDICTION_COLS = ["x", "y", "z", "qw", "qx", "qy", "qz"]
@@ -60,7 +61,8 @@ def main(data_dir, output_path):
     submission_format_df = pd.read_csv(submission_format_path, index_col="image_id")
     submission_df = submission_format_df.copy()
     # load pretrained model we included in our submission.zip
-    model = YOLO('best.pt')
+    model = YOLO('custom_yolov8n.yaml')
+    model.load_state_dict(torch.load('yolov8n_trained.pt'))
     # add a progress bar using tqdm without spamming the log
     update_iters = min(100, int(submission_format_df.shape[0] / 10))
     with open(os.devnull, "w") as devnull:
